@@ -24,6 +24,9 @@ class MessageHub {
 
   _onReceive(msgevt) {
     const {data} = msgevt
+    if ('url' in data) {
+      return window.open(data.url)
+    }
     if ('notification' in data) {
       return this._handleNotif(data)
     }

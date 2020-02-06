@@ -1,46 +1,56 @@
 import ProviderBridge from './provider-bridge'
 
-let handshaked = null
-
-function respondToHandshake(port, error, bridge) {
-  if (error == null) {
-    port.onmessage = bridge._incomingHandler
-    port.postMessage({ok: true, msg: 'handshake ACK'})
-  } else {
-    // act like if the connection were closed
-    port.onmessage = () => {}
-    port.postMessage({ok: false, msg: 'handshake failed', error: error})
-  }
-}
-
-function postMessageHandler(evt) {
-  if (!evt.origin) {
-    return
-  }
-  if (location.origin == evt.origin) {
-    console.debug('Ignoring self-calling message')
-    return
+class UrlWallet {
+  constructor() {
+    this.handshaked = null
+    this.bridge = null
+    this.openWindow = this._openWindow.bind(this)
+    this.respondToHandshake = this._respondToHandshake.bind(this)
+    this.postMessageHandler = this._postMessageHandler.bind(this)
   }
 
-  console.log('iframe onmessage', evt.data, 'from', evt.origin, evt)
+  _openWindow(url) {
+    this.bridge.port.postMessage({ url: url })
+  }
 
-  // drop all non-handshaking events
-  if (evt.data.action == 'handshake') {
-    if (handshaked) {
-      console.warn('Repeated handshake to iframe! Ignoring...')
+  _respondToHandshake(port, error) {
+    if (error == null) {
+      port.onmessage = this.bridge._incomingHandler
+      port.postMessage({ok: true, msg: 'handshake ACK'})
+    } else {
+      // act like if the connection were closed
+      port.onmessage = () => {}
+      port.postMessage({ok: false, msg: 'handshake failed', error: error})
+    }
+  }
+
+  _postMessageHandler(evt) {
+    if (!evt.origin) {
       return
     }
-    handshaked = true
+    if (location.origin == evt.origin) {
+      console.debug('Ignoring self-calling message')
+      return
+    }
 
-    const bridge = new ProviderBridge(web3.currentProvider, evt.ports[0])
-    respondToHandshake(evt.ports[0], null, bridge)
-    
-    // try to call
-    if (main) 
-      main(bridge)
-  } else {
-    console.error(evt)
+    console.log('iframe onmessage', evt.data, 'from', evt.origin, evt)
+
+    // drop all non-handshaking events
+    if (evt.data.method == 'handshake') {
+      if (this.handshaked) {
+        console.warn('Repeated handshake to iframe! Ignoring...')
+        return
+      }
+      this.handshaked = true
+
+      this.bridge = new ProviderBridge(web3.currentProvider, evt.ports[0])
+      this.respondToHandshake(evt.ports[0], null)
+
+      window.postMessage({ 'method': 'handshakeDone' })
+    } else {
+      console.error(evt)
+    }
   }
 }
 
-window.addEventListener('message', postMessageHandler)
+export default UrlWallet

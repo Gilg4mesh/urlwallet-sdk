@@ -58,7 +58,7 @@ class UrlWalletSDK {
     channel.port1.onmessage = handshakeHandler
 
     // Mind here: only send to the domain you trust!
-    foreignWindow.postMessage({ action: 'handshake' }, this.trustedOrigin, [channel.port2])
+    foreignWindow.postMessage({ method: 'handshake' }, this.trustedOrigin, [channel.port2])
   }
 
   // --- helper methods ---

@@ -36,5 +36,8 @@ module.exports = [{
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'url-wallet.js',
+    library: 'UrlWallet',
+    libraryTarget: 'var',
+    libraryExport: 'default',
   }
 }]
