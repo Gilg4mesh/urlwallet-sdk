@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config ./webpack.config.js  --mode development",
-    "build:prod": "webpack --config ./webpack.config.js  --mode production --output ./dist/urlwallet-sdk.min.js",
-    "serve": "npm run build & npm run build:prod & npx static-server dist/",
+    "build": "webpack --config ./webpack.common.js  --mode development",
+    "build:prod": "webpack --config ./webpack.prod.js  --mode production",
+    "serve": "npm run build & npm run build:prod & npx static-server -c '*' dist/",
     "dev": "nodemon --ignore dist/ --exec npm run serve"
   },
   "author": "gilg4mesh",
