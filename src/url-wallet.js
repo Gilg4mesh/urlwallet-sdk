@@ -6,6 +6,11 @@ class UrlWallet {
     this.bridge = null
     this.respondToHandshake = this._respondToHandshake.bind(this)
     this.postMessageHandler = this._postMessageHandler.bind(this)
+    this.windowBlocked = this._windowBlocked.bind(this)
+  }
+
+  _windowBlocked(url) {
+    this.bridge.port.postMessage({ windowBlocked: true })
   }
 
   _respondToHandshake(port, error) {

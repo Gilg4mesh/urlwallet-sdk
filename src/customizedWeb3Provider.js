@@ -24,6 +24,9 @@ class MessageHub {
 
   _onReceive(msgevt) {
     const {data} = msgevt
+    if ('windowBlocked' in data) {
+      return this.dispatcher.emit('window_blocked', this.dispatcher.port)
+    }
     if ('notification' in data) {
       return this._handleNotif(data)
     }
@@ -39,10 +42,6 @@ class MessageHub {
     const {method, params} = data.notification
     return this.dispatcher.emit('notification', params)
   }
-
-  // _handleTriggerUi(data) {
-  //   window.open(data.triggerUi, '_new')
-  // }
 
   _handleResponse(data) {
     const callback = this.callbackMap.get(data.nonce)

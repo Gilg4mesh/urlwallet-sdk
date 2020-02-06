@@ -10,6 +10,10 @@ urlWallet.ethProvider.on('initialized', port => {
   })
 })
 
+urlWallet.ethProvider.on('window_blocked', port => {
+  console.error('pop-up window is blocked (message from dapp)')
+})
+
 urlWallet.ethProvider.on('initiateFailure', resp => {
   setConnectStatus('init failed: ' + resp.msg)
 })
