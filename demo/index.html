@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<head>
+<title>UrlWalletSDK</title>
+<meta charset="utf-8">
+<link rel="shortcut icon" href="./favicon.ico" />
+<style>
+  iframe.pixel {
+    border: 1px solid silver;
+    box-shadow: inset 0 0 6px silver;
+
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 100vh;
+    width: 400px;
+  }
+
+  body, input, button {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+
+  input {
+    font-family: monospace;
+  }
+</style>
+</head>
+<body>
+
+<h1>Wallet connector</h1>
+<label>Connector URL: <input type="url" size="40" id="connectorUrl"></label><br>
+<button id="doConnect">Connect!</button>
+<label>Result: <input type="text" size="30" id="connectStatus"></label>
+
+<h1>Summary of your wallet</h1>
+
+<ul>
+<li><label>Chain ID: <input type="text" size="6" id="chainId" readonly></label>
+<li><label>Current address: <input type="text" size="42" id="currentAddress" readonly></label>
+<li><label>Balance: <input type="text" size="20" id="currentBalance" readonly></label>
+</ul>
+
+<h1>Sign</h1>
+<textarea id="signBox" placeholder="write something to sign..." rows="6" cols="100">0x0000000000000000000000000000000000000000000000000000000000000000</textarea><br>
+<button id="signButton">Sign!</button>
+<label>Signature: <input type="text" id="signature" readonly></label>
+
+
+<h1>Transfer (experimental)</h1>
+To address: <input type="text" size="42" id="receiver"><br>
+Amount: <input type="text" size="20" id="amount"><br>
+<button id="transferButton">Send!</button>
+
+<p>
+  <label>Tx hash: <input type="text" size="66" id="txhash" readonly></label><br>
+  <label>Status: <input type="text" size="48" id="txstatus" readonly></label><br>
+</p>
+
+<script src="http://127.0.0.1:9080/urlwallet-sdk.js"></script>
+
+<!-- Init -->
+<script>
+const ifr = document.createElement('iframe')
+if (location.href.indexOf('//localhost') < 0) {
+  document.getElementById('connectorUrl').value = 'https://url-wallet.pelith.com/iframe'
+} else {
+  document.getElementById('connectorUrl').value = 'http://localhost:8080/iframe.html'
+}
+
+function setConnectStatus(msg) {
+  document.getElementById('connectStatus').value = msg
+}
+
+// the container should NOT react to Metamask events
+if (typeof ethereum !== 'undefined' && 'autoRefreshOnNetworkChange' in ethereum) {
+  ethereum.autoRefreshOnNetworkChange = false
+}
+</script>
+<script src="./connect.js"></script>
+<script src="./actions.js"></script>
+
+</body>
