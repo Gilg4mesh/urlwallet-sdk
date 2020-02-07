@@ -24,6 +24,9 @@ class MessageHub {
 
   _onReceive(msgevt) {
     const {data} = msgevt
+    if ('url' in data) {
+      return window.open(data.url)
+    }
     if ('windowBlocked' in data) {
       return this.dispatcher.emit('window_blocked', this.dispatcher.port)
     }
