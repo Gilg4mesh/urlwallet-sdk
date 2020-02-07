@@ -3,6 +3,7 @@
 <title>UrlWalletSDK</title>
 <meta charset="utf-8">
 <link rel="shortcut icon" href="./favicon.ico" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.0/css/bulma.min.css"/>
 <style>
   iframe.pixel {
     border: 1px solid silver;
@@ -15,54 +16,89 @@
     width: 400px;
   }
 
-  body, input, button {
-    font-size: 18px;
-    line-height: 1.6;
-  }
-
-  input {
-    font-family: monospace;
-  }
 </style>
 </head>
 <body>
+<div class="container">
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">
+          Wallet connector
+        </h1>
+        <h2 class="subtitle">
+          A demo Dapp site for url-wallet
+        </h2>
+      </div>
+    </div>
+  </section>
+  <div class="tile is-ancestor">
+    <div class="tile is-vertical is-8">
+      <div class="tile is-parent">
+        <article class="tile is-child box">
+          <div class="field is-grouped">
+            <div class="control is-expanded">
+              <input class="input" type="url" size="40" id="connectorUrl">
+            </div>
+            <div class="control">
+              <a class="button" id="doConnect">
+                Connect!
+              </a>
+            </div>
+          </div>
+          <label>Result: <input class="input" type="text" size="30" id="connectStatus"></label>
+          <br><br>
+          <h1 class="title">Summary of your wallet</h1>
+          <ul>
+          <li><label>Chain ID: <input class="input" type="text" size="6" id="chainId" readonly></label>
+          <li><label>Current address: <input class="input" type="text" size="42" id="currentAddress" readonly></label>
+          <li><label>Balance: <input class="input" type="text" size="20" id="currentBalance" readonly></label>
+          </ul>
 
-<h1>Wallet connector</h1>
-<label>Connector URL: <input type="url" size="40" id="connectorUrl"></label><br>
-<button id="doConnect">Connect!</button>
-<label>Result: <input type="text" size="30" id="connectStatus"></label>
+          <br><br>
+          <h1 class="title">Sign</h1>
+          <div class="field is-grouped">
+            <div class="control is-expanded">
+              <input class="input" type="url" size="40" id="signBox" placeholder="write something to sign..." value="0x0000000000000000000000000000000000000000000000000000000000000000">
+            </div>
+            <div class="control">
+              <a class="button" id="signButton">Sign!</a>
+            </div>
+          </div>
+          <label>Signature: <input class="input" type="text" id="signature" readonly></label>
 
-<h1>Summary of your wallet</h1>
+          <br><br>
+          <h1 class="title">Transfer (experimental)</h1>
+          To address: <input class="input" type="text" size="42" id="receiver"><br>
+          Amount: <input class="input" type="text" size="20" id="amount"><br>
+          <br>
+          <button class="input button" id="transferButton">Send!</button>
+          <br><br>
 
-<ul>
-<li><label>Chain ID: <input type="text" size="6" id="chainId" readonly></label>
-<li><label>Current address: <input type="text" size="42" id="currentAddress" readonly></label>
-<li><label>Balance: <input type="text" size="20" id="currentBalance" readonly></label>
-</ul>
+          <p>
+            <label>Tx hash: <input class="input" type="text" size="66" id="txhash" readonly></label><br>
+            <label>Status: <input class="input" type="text" size="48" id="txstatus" readonly></label><br>
+          </p>
+        </article>
+      </div>
+    </div>
+    <div class="tile is-parent">
+      <article class="tile is-child box">
+        <h1 class="title">Wallet status</h1>
+        <iframe id="url-wallet" style="height:90%; width: 100%;"></iframe>
+      </article>
+    </div>
+  </div>
+</div>
 
-<h1>Sign</h1>
-<textarea id="signBox" placeholder="write something to sign..." rows="6" cols="100">0x0000000000000000000000000000000000000000000000000000000000000000</textarea><br>
-<button id="signButton">Sign!</button>
-<label>Signature: <input type="text" id="signature" readonly></label>
-
-
-<h1>Transfer (experimental)</h1>
-To address: <input type="text" size="42" id="receiver"><br>
-Amount: <input type="text" size="20" id="amount"><br>
-<button id="transferButton">Send!</button>
-
-<p>
-  <label>Tx hash: <input type="text" size="66" id="txhash" readonly></label><br>
-  <label>Status: <input type="text" size="48" id="txstatus" readonly></label><br>
-</p>
-
+<!--<script src="https://cdn.jsdelivr.net/gh/Gilg4mesh/urlwallet-sdk/dist/urlwallet-sdk.min.js"></script>-->
 <script src="http://127.0.0.1:9080/urlwallet-sdk.js"></script>
 
 <!-- Init -->
 <script>
-const ifr = document.createElement('iframe')
+const ifr = document.getElementById('url-wallet')
 if (location.href.indexOf('//localhost') < 0) {
-  document.getElementById('connectorUrl').value = 'https://url-wallet.pelith.com/iframe'
+  document.getElementById('connectorUrl').value = 'https://metamask.netlify.com/iframe.html'
 } else {
   document.getElementById('connectorUrl').value = 'http://localhost:8080/iframe.html'
 }

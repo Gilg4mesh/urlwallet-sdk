@@ -35,10 +35,6 @@ document.getElementById('doConnect').addEventListener('click', () => {
 // init a default one
 // document.getElementById('doConnect').dispatchEvent(new Event('click'))
 
-ifr.classList.add('pixel')
-document.body.appendChild(ifr)
-
-
 function main() {
   return Promise.resolve()
   .then(() => {
