@@ -1,7 +1,7 @@
 // Sign
 document.getElementById('signButton').addEventListener('click', () => {
   const value = document.getElementById('signBox').value
-  web3.eth.sign(value, web3.eth.defaultAccount).then(sig => {
+  cWeb3.eth.sign(value, cWeb3.eth.defaultAccount).then(sig => {
     document.getElementById('signature').value = sig
   })
 })
@@ -16,10 +16,10 @@ elTransfer.addEventListener('click', () => {
 
   const elTxStatus = document.getElementById('txstatus')
 
-  const pe = web3.eth.sendTransaction({
-    from: web3.eth.defaultAccount,
+  const pe = cWeb3.eth.sendTransaction({
+    from: cWeb3.eth.defaultAccount,
     to: dest,
-    value: web3.utils.toWei(amount),
+    value: cWeb3.utils.toWei(amount),
     gasPrice: '1' + '0'.repeat(9),
     gasLimit: '21000',
   })

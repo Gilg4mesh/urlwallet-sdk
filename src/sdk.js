@@ -5,9 +5,7 @@ class UrlWalletSDK {
   constructor(dom) {
     this.dom = dom
     this.ethProvider = new CustomizedWeb3Provider()
-    if (window && window.web3 === undefined) {
-      window.web3 = new Web3(this.ethProvider)
-    }
+    this.web3 = new Web3(this.ethProvider)
 
     this.handshaked = false
     // this.currentProviderEvent = null  // unused

@@ -1,8 +1,9 @@
 const urlWallet = new UrlWalletSDK(ifr)
+window.cWeb3 = urlWallet.web3 // connected web3
 
 console.log('provider', urlWallet.ethProvider)
-console.log('my web3', web3)
-console.log('web3 current provider', web3.currentProvider)
+console.log('connected web3', cWeb3)
+console.log('web3 current provider', cWeb3.currentProvider)
 
 urlWallet.ethProvider.on('initialized', port => {
   main().then(() => {
@@ -38,7 +39,7 @@ document.getElementById('doConnect').addEventListener('click', () => {
 function main() {
   return Promise.resolve()
   .then(() => {
-    return web3.eth.getChainId()
+    return cWeb3.eth.getChainId()
     .then(id => {
       document.getElementById('chainId').value = id
     })
@@ -60,15 +61,15 @@ function main() {
     .then(addr => {
       if (addr) {
         document.getElementById('currentAddress').value = addr
-        web3.eth.defaultAccount = addr
+        cWeb3.eth.defaultAccount = addr
       } else {
         throw new Error('Cannot init URL wallet: Failed to request the active account from the iframe.')
       }
     })
   }).then(() => {
-    return web3.eth.getBalance(web3.eth.defaultAccount)
+    return cWeb3.eth.getBalance(cWeb3.eth.defaultAccount)
     .then(bal => {
-      document.getElementById('currentBalance').value = web3.utils.fromWei(bal)
+      document.getElementById('currentBalance').value = cWeb3.utils.fromWei(bal)
     })
   })
 }
