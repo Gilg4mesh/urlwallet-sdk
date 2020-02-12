@@ -57,7 +57,7 @@ class UrlWallet {
       this.bridge = new ProviderBridge(web3.currentProvider, evt.ports[0])
       this.respondToHandshake(evt.ports[0], null)
 
-      window.postMessage({ 'method': 'handshakeDone' })
+      window.postMessage({ 'method': 'handshakeDone' }, location.origin)
     } else {
       console.error(evt)
     }
