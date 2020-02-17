@@ -6,8 +6,19 @@ class UrlWallet {
     this.bridge = null
     this.respondToHandshake = this._respondToHandshake.bind(this)
     this.postMessageHandler = this._postMessageHandler.bind(this)
+    this.openWindow = this._openWindow.bind(this)
     this.openWindowFromDapp = this._openWindowFromDapp.bind(this)
     this.openWindowFromIframe = this._openWindowFromIframe.bind(this)
+  }
+
+  _openWindow(url) {
+    const newWindow = window.open(url)
+    if (!newWindow || newWindow.closed || newWindow.closed === undefined) {
+      this.bridge.port.postMessage({ url: location.origin + '/' + url })
+      return false
+    }
+
+    return true
   }
 
   _openWindowFromDapp(url) {
