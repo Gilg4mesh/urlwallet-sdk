@@ -29,7 +29,7 @@
         <h2 class="subtitle">
           A demo Dapp site for url-wallet
           <br>
-          <a href="https://metamask.netlify.com/home.html" target="_blank">configure your url-wallet here</a>
+          <a href="https://metamask.netlify.app/home.html" target="_blank">configure your url-wallet here</a>
         </h2>
       </div>
     </div>
@@ -99,7 +99,7 @@
 <script>
 const ifr = document.getElementById('url-wallet')
 if (location.href.indexOf('//localhost') < 0) {
-  document.getElementById('connectorUrl').value = 'https://metamask.netlify.com/iframe.html'
+  document.getElementById('connectorUrl').value = 'https://metamask.netlify.app/iframe.html'
 } else {
   document.getElementById('connectorUrl').value = 'http://localhost:8080/iframe.html'
 }
